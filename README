@@ -1,0 +1,25 @@
+This is a demo yocto repository for reproducing an issue with bats tests
+spending a lot of time in wait4() system call.
+
+Building:
+
+  git clone https://github.com/brgl/slow-bats-demo
+  cd slow-bats-demo
+  git submodule update --init --recursive --progress
+  TEMPLATECONF=meta-slow-bats/conf/templates/slow-bats . ./layers/oe-init-build-env
+  bitbake core-image-minimal
+
+Running the VM:
+
+  runqemu kvm slirp nographic
+  # then login as 'root' with no password
+
+Running tests inside the VM:
+
+  # This will run all libgpiod tests. You can observe that the C and C++ tests
+  # execute very fast, while bats tests take ~30 seconds to complete.
+  ptest-runner libgpiod
+
+Running bats tests individually:
+
+  /usr/lib/libgpiod/ptest/tests/gpio-tools-test

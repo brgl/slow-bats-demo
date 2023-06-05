@@ -1,0 +1,20 @@
+MACHINE = "qemux86-64"
+DISTRO = "poky"
+
+EXTRA_IMAGE_FEATURES = "debug-tweaks ptest-pkgs"
+
+DISTRO_FEATURES:append = " systemd ptest"
+DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
+VIRTUAL-RUNTIME_init_manager = "systemd"
+VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
+
+IMAGE_INSTALL:append = " \
+    kernel-module-gpio-sim \
+    strace \
+"
+
+IMAGE_INSTALL:append = " libgpiod libgpiodcxx libgpiod-tools"
+
+KERNEL_FEATURES:append = " \
+    features/gpio/sim.scc \
+"
